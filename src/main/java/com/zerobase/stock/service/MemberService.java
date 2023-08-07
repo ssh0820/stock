@@ -32,30 +32,40 @@ public class MemberService implements UserDetailsService {
 
         // 아이디가 존재하는 경우 exception 발생
         boolean exists = false; // not implemented yet
+        exists = memberRepository.existsByUsername(member.getUsername());
+
         if (exists) {
             throw new AlreadyExistUserException();
+        }else{
+            String memberName = member.getUsername();
+            String encodePw = passwordEncoder.encode(member.getPassword());
+
+            return MemberEntity.builder()
+                    .username(memberName)
+                    .password(encodePw)
+                    .build();
         }
 
-        // ID 생성 가능한 경우, 멤버 테이블에 저장
-
-        // 비밀번호는 암호화 되어서 저장되어야함
-
-
-        throw new NotYetImplementedException();
     }
 
     public MemberEntity authenticate(Auth.SignIn member) {
 
         // id 로 멤버 조회
+        MemberEntity memberEntity = memberRepository.findByUsername(member.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("해당 유저를 찾을수 없습니다."));
 
         // 패스워드 일치 여부 확인
-
         //      - 일치하지 않는 경우 400 status 코드와 적합한 에러 메시지 반환
-
         //      - 일치하는 경우, 해당 멤버 엔티티 반환
 
+        if(memberEntity.getPassword().equals(member.getPassword())){
+            //400 status 코드값
 
-        throw new NotYetImplementedException();
+            // 에러코드
+            throw new NotYetImplementedException();
+        }else{
+            return memberEntity;
+        }
     }
 
 }
