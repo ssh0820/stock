@@ -8,15 +8,23 @@ import com.zerobase.stock.persist.entity.CompanyEntity;
 import com.zerobase.stock.persist.entity.DividendEntity;
 import com.zerobase.stock.scraper.Scraper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.Trie;
+import org.hibernate.cfg.NotYetImplementedException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class CompanyService {
+
+    private final Trie trie;
 
     private final Scraper yahooFinanceScraper;
 
@@ -28,10 +36,16 @@ public class CompanyService {
         boolean exists = companyRepository.existsByTicker(ticker);
 
         if(exists){
-            throw new RuntimeException("already exists ticker" + ticker);
+            throw new NotYetImplementedException();
         }
 
         return storeCompanyAndDividend(ticker);
+    }
+
+    public Page<CompanyEntity> getAllCompany(Pageable pageable) {
+        //throw new NotYetImplementedException();
+
+        return null;
     }
 
     private Company storeCompanyAndDividend(String ticker){
@@ -53,5 +67,34 @@ public class CompanyService {
         dividendRepository.saveAll(dividendEntities);
 
         return company;
+    }
+
+    public String deleteCompany(String ticker) {
+        // 1. 배당금 정보 삭제
+
+        // 2. 회사 정보 삭제
+
+        return "";
+    }
+
+    public Object getCompanyNamesByKeyword(String keyword) {
+
+        //throw new NotYetImplementedException();
+
+        return null;
+    }
+
+    public List<String> autocomplete(String keyword) {
+        return (List<String>) trie.prefixMap(keyword).keySet()
+                .stream()
+                .collect(Collectors.toList());
+    }
+
+    public void addAutocompleteKeyword(String keyword) {
+        trie.put(keyword, null);
+    }
+
+    public void deleteAutocompleteKeyword(String keyword) {
+        trie.remove(keyword);
     }
 }
