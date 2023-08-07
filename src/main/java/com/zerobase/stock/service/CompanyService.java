@@ -44,8 +44,7 @@ public class CompanyService {
 
     public Page<CompanyEntity> getAllCompany(Pageable pageable) {
         //throw new NotYetImplementedException();
-
-        return null;
+        return companyRepository.findAll(pageable);
     }
 
     private Company storeCompanyAndDividend(String ticker){
@@ -72,8 +71,12 @@ public class CompanyService {
     public String deleteCompany(String ticker) {
 
         // 1. 배당금 정보 삭제
+        CompanyEntity companyEntity = companyRepository.findByTicker(ticker)
+                .orElseThrow(() -> new IllegalArgumentException("해당 정보를 찾을 수 없습니다."));
+        dividendRepository.deleteAllByCompanyId(companyEntity.getId());
 
         // 2. 회사 정보 삭제
+        companyRepository.deleteById(companyEntity.getId());
 
         return "";
     }
