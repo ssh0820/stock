@@ -14,6 +14,7 @@ public class FinanceService {
 
     @Cacheable(key = "#companyName", value = CacheKey.KEY_FINANCE)
     public Object getDividendByCompanyName(String companyName) {
+
         // 1. 회사명을 기준으로 회사 정보를 조회
 
         // 2. 조회된 회사 ID 로 배당금 정보 조회

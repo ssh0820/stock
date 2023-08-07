@@ -45,6 +45,7 @@ public class MemberService implements UserDetailsService {
     }
 
     public MemberEntity authenticate(Auth.SignIn member) {
+
         // id 로 멤버 조회
 
         // 패스워드 일치 여부 확인

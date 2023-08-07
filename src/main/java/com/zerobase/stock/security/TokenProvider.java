@@ -35,6 +35,7 @@ public class TokenProvider {
      * @return
      */
     public String generateToken(String username, List<String> roles) {
+
         // 다음 정보들을 포함한 claims 생성
         //      - username
         //      - roles

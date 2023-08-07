@@ -70,6 +70,7 @@ public class CompanyService {
     }
 
     public String deleteCompany(String ticker) {
+
         // 1. 배당금 정보 삭제
 
         // 2. 회사 정보 삭제
