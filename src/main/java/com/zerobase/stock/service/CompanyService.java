@@ -43,7 +43,6 @@ public class CompanyService {
     }
 
     public Page<CompanyEntity> getAllCompany(Pageable pageable) {
-        //throw new NotYetImplementedException();
         return companyRepository.findAll(pageable);
     }
 
@@ -83,9 +82,10 @@ public class CompanyService {
 
     public Object getCompanyNamesByKeyword(String keyword) {
 
-        //throw new NotYetImplementedException();
+        addAutocompleteKeyword(keyword);
+        deleteAutocompleteKeyword(keyword);
 
-        return null;
+        return autocomplete(keyword);
     }
 
     public List<String> autocomplete(String keyword) {
